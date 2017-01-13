@@ -77,7 +77,7 @@ public class EventsOperate {
 		do {
 			haveSwap = false;
 			for (int i = 0; i < events.length - 1; i++) {
-				if (events[i].getTimeOfEvent().before(events[i + 1].getTimeOfEvent())) {
+				if (events[i].getTimeOfEvent().after(events[i + 1].getTimeOfEvent())) {
 					tmp = events[i];
 					events[i] = events[i + 1];
 					events[i + 1] = tmp;

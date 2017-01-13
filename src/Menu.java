@@ -19,6 +19,7 @@ public class Menu {
 		Menu.printIntro();
 		HashMap<Integer, Event> hashMap = null;// new HashMap<Integer, Event>();
 		FileOperate newFile = new FileOperate();
+		maxId = EventsOperate.countEvents(FileOperate.file);
 		hashMap = FileOperate.loadEventsMapped(FileOperate.file);
 		//EventsDisplay.printTable2(hashMap);
 		while (true) {
@@ -63,7 +64,7 @@ public class Menu {
 							System.out.println("Enter number");
 							
 						}
-						maxId = EventsOperate.countEvents(FileOperate.file);
+						
 						hashMap.put(++maxId, event);
 						System.out.println("Event added");
 						Menu.printIntro();
