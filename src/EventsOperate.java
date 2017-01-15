@@ -1,21 +1,8 @@
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class EventsOperate {
-
-	public static String eventToWrite(Event event) {
-
-		String ready = "*" + event.getType() + "*" + event.getMarker() + "*"
-				+ event.getTimeOfEvent().get(Calendar.MONTH) + "*" + event.getTimeOfEvent().get(Calendar.DATE) + "*"
-				+ event.getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + "*" + event.getTimeOfEvent().get(Calendar.MINUTE)
-				+ "*" + event.getDescription();
-		
-		return ready;
-
-	}
-
 	
 
 	public static Event[] sortEvents(Event[] arr) {
