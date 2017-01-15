@@ -1,14 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -20,7 +10,7 @@ public class EventsOperate {
 		String ready = "*" + event.getType() + "*" + event.getMarker() + "*"
 				+ event.getTimeOfEvent().get(Calendar.MONTH) + "*" + event.getTimeOfEvent().get(Calendar.DATE) + "*"
 				+ event.getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + "*" + event.getTimeOfEvent().get(Calendar.MINUTE)
-				+ "*" + event.getDescription();// +"*";
+				+ "*" + event.getDescription();
 		
 		return ready;
 
@@ -41,11 +31,6 @@ public class EventsOperate {
 					events[i] = events[i + 1];
 					events[i + 1] = tmp;
 					haveSwap = true;
-					// System.out.println("SWAP");
-					// a=2 b=1 tmp
-					// tmp=a a=b b=tmp
-				} else {
-					// System.out.println("Already sorted");
 				}
 			}
 		} while (haveSwap);
@@ -64,8 +49,7 @@ public class EventsOperate {
 			System.out.println("Check your ID");
 			System.out.println();
 		}else if (edit == 1) {
-			// while(!chosedEvent){
-			// try(
+			
 			System.out.println("Enter ID of the event you want to remove");
 			eventToEdit = sc.nextInt();
 			sc.nextLine();
@@ -77,8 +61,6 @@ public class EventsOperate {
 				System.out.println("Wrong event ID");
 				throw new IllegalArgumentException();
 			}
-			// }catch
-			// }
 		} return hashMap;
 	}
 
@@ -92,15 +74,12 @@ public class EventsOperate {
 		System.out.println("5 Dont know event ID");
 		int edit = sc.nextInt();
 		sc.nextLine();
-		// eventId=1;
 		if (edit <= 4 && edit >= 1) {
 			System.out.println("Enter event ID to edit event with this ID");
 			int eventToEdit = sc.nextInt();
 			sc.nextLine();
 			System.out.println(eventToEdit);
 			if (eventToEdit >= 0 && eventToEdit <= maxId) {
-				// sc.nextInt za ID
-				// vzima eventa i nadolu set kakvoto trqbva
 				if (edit == 1) {
 					System.out.println("Enter new event Type");
 					hashMap.get(eventToEdit).setType();

@@ -14,37 +14,34 @@ public class Menu {
 		Scanner sc = InputStream.getScanner();
 		Menu.printIntro();
 		HashMap<Integer, Event> hashMap = null;
-		//FileOperate newFile = new FileOperate();
+		
 		FileOperate.createFile();
 		hashMap = FileOperate.loadEventsMappedXML(FileOperate.file);
-		
-		maxId=hashMap.size();
+
+		maxId = hashMap.size();
 		System.out.println(maxId);
-		//maxId = FileOperate.countEvents(FileOperate.file);
-		//if = 0 empty file 
-		//else continue
-		//hashMap = FileOperate.loadEventsMapped(FileOperate.file);
+		
 		while (true) {
 			try {
 				if (in) {
 					sc.nextLine();
 					choice = sc.nextInt();
 					sc.nextLine();
-					in=false;
+					in = false;
 				} else {
 					choice = sc.nextInt();
 					sc.nextLine();
 				}
 				if (choice >= 1 && choice <= 6) {
-		
+
 					switch (choice) {
 					case 1:
 						System.out.println("1");
 						checked = true;
-						//maxId = FileOperate.countEvents(FileOperate.file);
+
 						EventsDisplay.showEvents(hashMap);
 						Menu.printIntro();
-						
+
 						break;
 
 					case 2:
@@ -55,22 +52,22 @@ public class Menu {
 						System.out.println(event);
 						System.out.println("");
 						System.out.println("Do you want to add this 2 for NO | Any number for YES");
-						try{
-						choice = sc.nextInt();
-						sc.nextLine();
-						if (choice == 2) {
-							Menu.printIntro();
-							break;
-						}
-						}catch(InputMismatchException e){
+						try {
+							choice = sc.nextInt();
+							sc.nextLine();
+							if (choice == 2) {
+								Menu.printIntro();
+								break;
+							}
+						} catch (InputMismatchException e) {
 							System.out.println("Enter number");
-							
+
 						}
 						hashMap.put(++maxId, event);
 						System.out.println("Event added");
 						Menu.printIntro();
 						break;
-						
+
 					case 3:
 						System.out.println("3");
 						if (checked == true) {
@@ -103,7 +100,7 @@ public class Menu {
 						System.out.println();
 						Menu.printIntro();
 						break;
-	
+
 					case 5:
 						System.out.println("5");
 						int date;
@@ -111,11 +108,11 @@ public class Menu {
 						System.out.println("Enter 1 for DayView | 2 for WeekView | 3 for MonthView");
 						choice = sc.nextInt();
 						if (choice >= 0 && choice <= 3) {
-							
+
 							HashMap<Integer, Event> dayMap = null;
-							
+
 							if (choice == 1) {
-								// EXCEPTION
+
 								System.out.println("Enter month");
 								month = sc.nextInt();
 								sc.nextLine();
@@ -161,25 +158,24 @@ public class Menu {
 							throw new IllegalArgumentException();
 						}
 						break;
-					// showva vsichki event kalendarno 3 case DAY,WEEK,MONTH
+
 					case 6:
 						Event[] eventArr = new Event[hashMap.size()];
 						int i = 0;
 						for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
-							if(e!=null){
-							eventArr[i] = e.getValue();
-							i++;
+							if (e != null) {
+								eventArr[i] = e.getValue();
+								i++;
 							}
 						}
 						FileOperate.loadEventsMappedXML(FileOperate.file);
 						eventArr = EventsOperate.sortEvents(eventArr);
-						//FileOperate.reWriteFile(eventArr);
 						FileOperate.reWriteFileXML(eventArr);
 						hashMap.clear();
 						InputStream.closeInputStream();
 						System.out.println("Exit sucess");
 						System.exit(6);
-						// zatvarq potocite
+
 					}
 				} else {
 					throw new IllegalArgumentException();
@@ -195,7 +191,7 @@ public class Menu {
 				System.out.println();
 				in = true;
 				Menu.printIntro();
-			}catch (Exception ex){
+			} catch (Exception ex) {
 				System.out.println("Unknown Error 123");
 			}
 		}

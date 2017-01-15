@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 
 public class Event {
-	private char type; // M = meeting,T = task
-	private char marker; // Public - 1,Private -2 ,Confidential -3
+	private char type;
+	private char marker; 
 	private Calendar timeOfEvent;
 	private String description;
 	static int year = 2017;
