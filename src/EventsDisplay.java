@@ -33,14 +33,14 @@ public class EventsDisplay {
 			}
 			if (e.getKey().intValue() >= 10) {
 				System.out.println("|" + e.getKey().intValue() + "|" + marker + "|" + type + "|"
-						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)) + 1) + "|"
+						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH))+1) + "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.DATE) + "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + ":"
 						+ e.getValue().getTimeOfEvent().get(Calendar.MINUTE) + "|" + e.getValue().getDescription() + "|");
 
 			} else {
 				System.out.println("|" + e.getKey().intValue()  + " |" + type + "|" + marker + "|"
-						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH))+1)  + "|"
+						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)+1))  + "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.DATE)+ "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + ":"
 						+ e.getValue().getTimeOfEvent().get(Calendar.MINUTE) + "|" +e.getValue().getDescription() + "|");

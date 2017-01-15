@@ -26,48 +26,7 @@ public class EventsOperate {
 
 	}
 
-	public static Event[] readEvents(File file) {
-		String input;
-		try {
-			FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
-			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-			if (fileInputStream.read() == -1) {
-				System.out.println("EMPTY FILE");
-				throw new IOException();
-			}
-			while ((input = bufferedReader.readLine()) != null) {
-				String[] splitted = input.split("\\*");
-				Event[] events = new Event[splitted.length / 7];
-				int a = 0;
-				for (int i = 0; i < events.length; i++) {
-					Calendar calendar = new GregorianCalendar();
-					// char type, char marker, Calendar timeOfEvent, String
-					// description
-					// *M* | 2* | 0*12*12*30* | Proba123
-					calendar.set(Event.year, Integer.parseInt(splitted[a + 2]), Integer.parseInt(splitted[a + 3]),
-							Integer.parseInt(splitted[a + 4]), Integer.parseInt(splitted[a + 5]));
-					events[i] = new Event(splitted[a].charAt(0), splitted[a + 1].charAt(0), calendar, splitted[a + 6]);
-
-					a += 7;
-				}
-				return events;
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Can't open file input stream");
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			System.out.println("Dont support UTF-8");
-			e.printStackTrace();
-		} catch (IOException e) {
-			System.out.println("IO exception");
-			e.printStackTrace();
-		} finally {
-			// zatvarq potocite
-		}
-		return null;
-	}
+	
 
 	public static Event[] sortEvents(Event[] arr) {
 		boolean haveSwap = false;
@@ -185,12 +144,6 @@ public class EventsOperate {
 			}
 		}
 		return count;
-	}
-
-	public static int countEvents(File file) {
-		Event[] events = EventsOperate.readEvents(FileOperate.file);
-		System.out.println(events.length);
-		return events.length;
 	}
 
 }

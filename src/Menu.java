@@ -1,7 +1,3 @@
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -15,13 +11,19 @@ public class Menu {
 		int maxId = 0;
 		boolean checked = false;
 		boolean in = false;
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = InputStream.getScanner();
 		Menu.printIntro();
-		HashMap<Integer, Event> hashMap = null;// new HashMap<Integer, Event>();
-		FileOperate newFile = new FileOperate();
-		maxId = EventsOperate.countEvents(FileOperate.file);
-		hashMap = FileOperate.loadEventsMapped(FileOperate.file);
-		//EventsDisplay.printTable2(hashMap);
+		HashMap<Integer, Event> hashMap = null;
+		//FileOperate newFile = new FileOperate();
+		FileOperate.createFile();
+		hashMap = FileOperate.loadEventsMappedXML(FileOperate.file);
+		
+		maxId=hashMap.size();
+		System.out.println(maxId);
+		//maxId = FileOperate.countEvents(FileOperate.file);
+		//if = 0 empty file 
+		//else continue
+		//hashMap = FileOperate.loadEventsMapped(FileOperate.file);
 		while (true) {
 			try {
 				if (in) {
@@ -39,7 +41,7 @@ public class Menu {
 					case 1:
 						System.out.println("1");
 						checked = true;
-						maxId = EventsOperate.countEvents(FileOperate.file);
+						//maxId = FileOperate.countEvents(FileOperate.file);
 						EventsDisplay.showEvents(hashMap);
 						Menu.printIntro();
 						
@@ -64,7 +66,6 @@ public class Menu {
 							System.out.println("Enter number");
 							
 						}
-						
 						hashMap.put(++maxId, event);
 						System.out.println("Event added");
 						Menu.printIntro();
@@ -90,9 +91,6 @@ public class Menu {
 						if (checked == true) {
 							hashMap = EventsOperate.removeEvent(hashMap, sc, maxId);
 							System.out.println("REMOVED");
-							/*if(hashMap==null){
-								throw new Exception();
-							}*/
 						} else {
 							System.out.println("-------------------------------------------------------");
 							System.out.println("-------------------------------------------------------");
@@ -140,7 +138,7 @@ public class Menu {
 								sc.nextLine();
 
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showWeekTableView(dayMap, month, date);
+								EventsDisplay.showWeekTableView(hashMap, month, date);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
@@ -151,7 +149,7 @@ public class Menu {
 								month = sc.nextInt();
 								sc.nextLine();
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showMonthTableView(hashMap, month);
+								EventsDisplay.showMonthTableView(dayMap, month);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
@@ -173,10 +171,12 @@ public class Menu {
 							i++;
 							}
 						}
+						FileOperate.loadEventsMappedXML(FileOperate.file);
 						eventArr = EventsOperate.sortEvents(eventArr);
-						FileOperate.reWriteFile(eventArr);
+						//FileOperate.reWriteFile(eventArr);
+						FileOperate.reWriteFileXML(eventArr);
 						hashMap.clear();
-						sc.close();
+						InputStream.closeInputStream();
 						System.out.println("Exit sucess");
 						System.exit(6);
 						// zatvarq potocite

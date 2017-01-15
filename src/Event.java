@@ -1,10 +1,8 @@
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
+
 
 public class Event {
 	private char type; // M = meeting,T = task
@@ -13,11 +11,10 @@ public class Event {
 	private String description;
 	static int year = 2017;
 
-	// SimpleDateFormat ft =
-	// new SimpleDateFormat ("E yyyy.dd.MM 'at' HH:mm");
+	
 	public Event() {
 
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = InputStream.getScanner();
 		this.setType();
 		this.setMarker();
 		System.out.println("Enter time of the Event |month|date|hour|minutes");
@@ -26,72 +23,99 @@ public class Event {
 		this.description = sc.nextLine();
 
 	}
-
+	
 	public void setTime() {
-		int zoneSf = 0;
-		boolean validHour = false;
-		int month;
-		int date;
-		boolean validMonth = false;
-		boolean validDate = false;
-		String hour;
-		Scanner sc = new Scanner(System.in);
-		RegEx regEx = new RegEx();
-		/*
-		 * String[] ids = TimeZone.getAvailableIDs(2 * 60 * 60 * 1000); if
-		 * (ids.length == 0) {
-		 * System.out.println("Dont have availble time zones"); System.exit(0);
-		 * } SimpleTimeZone zone = new SimpleTimeZone(2 * 60 * 60 * 1000,
-		 * ids[37]);
-		 */
-		Calendar timeOfEvent = new GregorianCalendar();
 
+		int month = Event.setMonth();
+		int date = Event.setDate(month);
+		String hour = Event.setHour();
+		String[] hourAndMin = hour.split(":");
+		
+		Calendar timeOfEvent = new GregorianCalendar();
+		if(month==-1||date==-1){
+			throw new IllegalArgumentException();
+		}
+		timeOfEvent.set(Event.year,month, date, Integer.valueOf(hourAndMin[0]),Integer.valueOf(hourAndMin[1]) );
+		this.timeOfEvent=timeOfEvent;
+		
+	}
+	public static int setMonth(){
+		int month;
+		boolean validMonth = false;
 		while (!validMonth) {
 			try {
 				System.out.println("Enter month(1-12)");
-				month = sc.nextInt();
+				month = InputStream.getScanner().nextInt();
+				InputStream.getScanner().nextLine();
 				if (Event.validMonth(month)) {
 					validMonth = true;
-					while (!validDate) {
-						try {
-							System.out.println("Enter date");
-							date = sc.nextInt();
-							sc.nextLine();
-							if (Event.validDate(date, month)) {
-								validDate = true;
-								while (!validHour) {
-									try {
-										System.out.println("Enter hour (HH:MM)");
-										hour = sc.nextLine();
-										validHour = regEx.validateHour(hour);
-										if (validHour) {
-											String[] splitHour = hour.split(":");
-											timeOfEvent.set(Event.year, month - 1, date, Integer.parseInt(splitHour[0]),
-													Integer.parseInt(splitHour[1]));
-											this.timeOfEvent = timeOfEvent;
-										}
-									} catch (IllegalArgumentException e) {
-										System.out.println("INVALID HOUR FORMAT HH:MM");
-									}
-								}
-							}
-						} catch (InputMismatchException e) {
-							System.out.println("Wrong date!!!");
-							sc.nextLine();
-							validDate = false;
-						}
-
-						catch (IllegalArgumentException e) {
-							System.out.println("INVALID DATE");
-						}
-					}
+					return month-1;
+					
 				} else {
 					throw new IllegalArgumentException();
 				}
-			} catch (IllegalArgumentException e) {
+			}catch(InputMismatchException im){
+				validMonth = false;
+				InputStream.getScanner().nextLine();
+				System.out.println("IVALID MONTH");
+			}catch (IllegalArgumentException e) {
+				validMonth = false;
+				InputStream.getScanner().nextLine();
 				System.out.println("IVALID MONTH");
 			}
 		}
+		return -1;
+		
+	}
+
+	
+	public static int setDate(int month){
+		int date;
+		boolean validDate= false;
+		while (!validDate) {
+			try {
+				System.out.println("Enter date");
+				date = InputStream.getScanner().nextInt();
+				InputStream.getScanner().nextLine();
+				if (Event.validDate(date, month)) {
+					validDate = true;
+					return date;
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Wrong date!!!");
+				InputStream.getScanner().nextLine();
+				validDate = false;
+			}
+
+			catch (IllegalArgumentException e) {
+				System.out.println("INVALID DATE");
+				InputStream.getScanner().nextLine();
+			}
+		}
+		return -1;
+	}
+	
+	public static String setHour(){
+		boolean validHour = false;
+		String hour;
+
+		RegEx regEx = new RegEx();
+		
+		while (!validHour) {
+			try {
+				System.out.println("Enter hour (HH:MM)");
+				hour = InputStream.getScanner().nextLine();
+				validHour = regEx.validateHour(hour);
+				if (validHour) {
+				return hour;
+				}else{
+					throw new IllegalArgumentException();
+				}
+			} catch (IllegalArgumentException e) {
+				System.out.println("INVALID HOUR FORMAT HH:MM");
+			}
+		}
+		return "Error with setHour";
 	}
 
 	public Event(char type, char marker, Calendar timeOfEvent, String description) {
@@ -109,7 +133,7 @@ public class Event {
 		boolean check = false;
 		while (!check) {
 			try {
-				Scanner sc = new Scanner(System.in);
+				Scanner sc = InputStream.getScanner();
 				System.out.println("Enter what type is the event");
 				System.out.println("For MEETING m or M");
 				System.out.println("For TASK t or T");
@@ -132,7 +156,7 @@ public class Event {
 	protected void setMarker() {
 		boolean check = false;
 		char ch;
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = InputStream.getScanner();
 		while (!check) {
 			try {
 				System.out.println("1 for public");
@@ -163,7 +187,7 @@ public class Event {
 		int date;
 		String hour;
 		boolean validHour = false;
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = InputStream.getScanner();
 		RegEx regEx = new RegEx();
 		try {
 			System.out.println("Enter time of the Event |month|date|hour|minutes");
@@ -206,7 +230,7 @@ public class Event {
 			validHour = regEx.validateHour(hour);
 			if (validHour) {
 				String[] splitHour = hour.split(":");
-				this.timeOfEvent.set(Event.year, month - 1, date, Integer.parseInt(splitHour[0]),
+				this.timeOfEvent.set(Event.year, month -1, date, Integer.parseInt(splitHour[0]),
 						Integer.parseInt(splitHour[1]));
 			} else {
 				System.out.println("Wrong hour format");
@@ -301,7 +325,7 @@ public class Event {
 			type = "Task";
 		}
 		String ready = "|" + type + "|" + marker + "|" + this.timeOfEvent.get(Calendar.DATE) + "|"
-				+ (this.timeOfEvent.get(Calendar.MONTH) + 1) + "|" + this.timeOfEvent.get(Calendar.HOUR_OF_DAY) + ":"
+				+ ((this.timeOfEvent.get(Calendar.MONTH) + 1)) + "|" + this.timeOfEvent.get(Calendar.HOUR_OF_DAY) + ":"
 				+ this.timeOfEvent.get(Calendar.MINUTE) + "|" + this.description + "|";
 		return ready;
 
