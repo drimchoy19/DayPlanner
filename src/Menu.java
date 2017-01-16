@@ -172,8 +172,8 @@ public class Menu {
 						//FileOperate.loadEventsMappedXML(FileOperate.file);
 						eventArr = EventsOperate.sortEvents(eventArr);
 						FileOperate.reWriteFileXML(eventArr);
-						hashMap.clear();
 						InputStream.closeInputStream();
+						hashMap.clear();
 						System.out.println("Exit sucess");
 						System.exit(6);
 

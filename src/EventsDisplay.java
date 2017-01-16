@@ -8,15 +8,24 @@ public class EventsDisplay {
 
 	public static void showEvents(HashMap<Integer, Event> hashMap) {
 
-		EventsDisplay.firstRow();
-
+		System.out.println("|" + "ID" + "|" + "     TYPE    " + "|"
+		+ "   MARKER   " + "|" + "MONTH" + "|" + "DATE " + "|"
+				+ "HOUR " + "|DESCRIPTION|");
+		
+		String type = "ERROR";
+		String marker = "ERROR";
+		int month;
+		int date;
+		int hour;
+		int minute;
+		String description;
+		
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
-			String type = "ERROR";
-			String marker = "ERROR";
+			
 			if (e.getValue().getMarker() == '1') {
-				marker = "Public";
+				marker = "   Public   ";
 			} else if (e.getValue().getMarker() == '2') {
-				marker = "Private";
+				marker = "  Private   ";
 			} else if (e.getValue().getMarker() == '3') {
 				marker = "Confidential";
 			} else {
@@ -25,23 +34,31 @@ public class EventsDisplay {
 			if (e.getValue().getType() == 'M' || e.getValue().getType() == 'm') {
 				type = "***Meeting***";
 			} else {
-				type = "---Task---";
+				type = "----Task-----";
 			}
-			if (e.getKey().intValue() >= 10) {
-				System.out.println("|" + e.getKey().intValue() + "|" + type + "|" + marker + "|"
-						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)) + 1) + "|"
-						+ e.getValue().getTimeOfEvent().get(Calendar.DATE) + "|"
-						+ e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + ":"
-						+ e.getValue().getTimeOfEvent().get(Calendar.MINUTE) + "|" + e.getValue().getDescription()
-						+ "|");
+			if (e.getKey().intValue() < 10) {
+				
+				month = ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)) + 1);
+				date = e.getValue().getTimeOfEvent().get(Calendar.DATE) ;
+				hour = e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY);
+				minute = e.getValue().getTimeOfEvent().get(Calendar.MINUTE);
+				description = e.getValue().getDescription();
+				
+				System.out.println("| " + e.getKey().intValue() + "|" + type 
+						+ "|" + marker + "| "+month + "   |  "+ date+ "  |"
+						+ hour + ":"+  minute+ "|" + description + "|");
 
 			} else {
-				System.out.println("|" + e.getKey().intValue() + " |" + type + "|" + marker + "|"
-						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH) + 1)) + "|"
-						+ e.getValue().getTimeOfEvent().get(Calendar.DATE) + "|"
-						+ e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + ":"
-						+ e.getValue().getTimeOfEvent().get(Calendar.MINUTE) + "|" + e.getValue().getDescription()
-						+ "|");
+				
+				month = ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)) + 1);
+				date = e.getValue().getTimeOfEvent().get(Calendar.DATE) ;
+				hour = e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY);
+				minute = e.getValue().getTimeOfEvent().get(Calendar.MINUTE);
+				description = e.getValue().getDescription();
+				
+				System.out.println("|" + e.getKey().intValue() + "|" + type + "|" 
+						+ marker + "| "+month + "   |  "+ date+ "  |"
+						+ hour + ":"+  minute+ "|"+description + "|");
 			}
 
 		}
@@ -118,10 +135,6 @@ public class EventsDisplay {
 
 	}
 
-	public static void firstRow() {
-		System.out.println("|" + "ID" + "|" + " TYPE" + "|" + "MARKER" + "|" + "MONTH" + "|" + "DATE" + "|"
-				+ "HOUR" + "|DESCRIPTION|");
-	}
 
 	public static void printTable2(HashMap<Integer, Event> hashMap) {
 		int n = 21;

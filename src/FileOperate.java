@@ -75,7 +75,7 @@ public class FileOperate {
 				rootElement.appendChild(event);
 
 				Attr attr = doc.createAttribute("id");
-				attr.setValue(String.valueOf(i + 1));
+				attr.setValue(String.valueOf(i));
 				event.setAttributeNode(attr);
 
 				Element type = doc.createElement("type");
@@ -139,7 +139,9 @@ public class FileOperate {
 		String hour;
 		String minutes;
 		String description;
-		Calendar timeOfEvent = new GregorianCalendar();
+		int count = 0;
+		
+		Calendar timeOfEvent;
 		try {
 			File inputFile = FileOperate.file;
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -162,13 +164,16 @@ public class FileOperate {
 					hour = eElement.getElementsByTagName("hour").item(0).getTextContent();
 					minutes = eElement.getElementsByTagName("minutes").item(0).getTextContent();
 					description = eElement.getElementsByTagName("Description").item(0).getTextContent();
+					timeOfEvent = new GregorianCalendar();
 					timeOfEvent.set(Event.year, month, date, Integer.valueOf(hour), Integer.valueOf(minutes));
+					//System.out.println(timeOfEvent.get(Calendar.MONTH));
 					events[temp] = new Event(type, marker, timeOfEvent, description);
-					hashMap.put(Integer.valueOf(eElement.getAttribute("id")), events[temp]);
-
+					//System.out.println(events[temp]);
+					hashMap.put(++count, events[temp]);
+					//System.out.println(events[temp]);
 				}
-
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
