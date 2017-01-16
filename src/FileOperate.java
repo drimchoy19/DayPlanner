@@ -39,41 +39,6 @@ public class FileOperate {
 				Element rootElement = doc.createElement("events");
 				doc.appendChild(rootElement);
 
-				Element event = doc.createElement("event");
-				rootElement.appendChild(event);
-
-				Attr attr = doc.createAttribute("id");
-				attr.setValue(String.valueOf(0));
-				event.setAttributeNode(attr);
-
-				Element type = doc.createElement("type");
-				type.appendChild(doc.createTextNode("test"));
-				event.appendChild(type);
-
-				Element marker = doc.createElement("marker");
-				marker.appendChild(doc.createTextNode("test"));
-				event.appendChild(marker);
-
-				Element month = doc.createElement("month");
-				month.appendChild(doc.createTextNode("test"));
-				event.appendChild(month);
-
-				Element date = doc.createElement("date");
-				date.appendChild(doc.createTextNode("test"));
-				event.appendChild(date);
-
-				Element hour = doc.createElement("hour");
-				hour.appendChild(doc.createTextNode("test"));
-				event.appendChild(hour);
-
-				Element minutes = doc.createElement("minutes");
-				minutes.appendChild(doc.createTextNode("test"));
-				event.appendChild(minutes);
-
-				Element description = doc.createElement("Description");
-				description.appendChild(doc.createTextNode("test"));
-				event.appendChild(description);
-
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
 				DOMSource source = new DOMSource(doc);
@@ -144,12 +109,15 @@ public class FileOperate {
 				event.appendChild(description);
 
 			}
+			
+			
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("DayPlanner.xml"));
-
+			StreamResult result = new StreamResult(("DayPlanner.xml"));
+			//result = new StreamResult(System.out);
+			
 			transformer.transform(source, result);
 
 			System.out.println("File saved!");
@@ -182,7 +150,7 @@ public class FileOperate {
 			NodeList nList = doc.getElementsByTagName("event");
 
 			Event[] events = new Event[nList.getLength()];
-			for (int temp = 1; temp < nList.getLength(); temp++) {
+			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {

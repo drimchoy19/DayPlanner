@@ -86,6 +86,7 @@ public class Menu {
 					case 4:
 						System.out.println("4");
 						if (checked == true) {
+							
 							hashMap = EventsOperate.removeEvent(hashMap, sc, maxId);
 							System.out.println("REMOVED");
 						} else {
@@ -168,7 +169,7 @@ public class Menu {
 								i++;
 							}
 						}
-						FileOperate.loadEventsMappedXML(FileOperate.file);
+						//FileOperate.loadEventsMappedXML(FileOperate.file);
 						eventArr = EventsOperate.sortEvents(eventArr);
 						FileOperate.reWriteFileXML(eventArr);
 						hashMap.clear();

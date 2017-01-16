@@ -40,7 +40,7 @@ public class EventsOperate {
 			System.out.println("Enter ID of the event you want to remove");
 			eventToEdit = sc.nextInt();
 			sc.nextLine();
-			if (eventToEdit >= 0 && eventToEdit <= maxId) {
+			if (eventToEdit >= 1 && eventToEdit <= maxId) {
 				
 				hashMap.remove(eventToEdit);
 				

@@ -28,7 +28,7 @@ public class EventsDisplay {
 				type = "---Task---";
 			}
 			if (e.getKey().intValue() >= 10) {
-				System.out.println("|" + e.getKey().intValue() + "|" + marker + "|" + type + "|"
+				System.out.println("|" + e.getKey().intValue() + "|" + type + "|" + marker + "|"
 						+ ((e.getValue().getTimeOfEvent().get(Calendar.MONTH)) + 1) + "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.DATE) + "|"
 						+ e.getValue().getTimeOfEvent().get(Calendar.HOUR_OF_DAY) + ":"
@@ -119,8 +119,8 @@ public class EventsDisplay {
 	}
 
 	public static void firstRow() {
-		System.out.println("|" + "ID" + "|" + " TYPE   " + "|" + "MARKER " + "|" + "MONTH" + "|" + "DATE" + "|"
-				+ " HOUR " + "|DESCRIPTION|");
+		System.out.println("|" + "ID" + "|" + " TYPE" + "|" + "MARKER" + "|" + "MONTH" + "|" + "DATE" + "|"
+				+ "HOUR" + "|DESCRIPTION|");
 	}
 
 	public static void printTable2(HashMap<Integer, Event> hashMap) {
