@@ -232,7 +232,7 @@ public class EventsDisplay {
 			System.out.println("");
 			counterDescription += 7;
 			counter += 7;
-			System.out.println();
+			//System.out.println();
 		}
 		System.out.println(String.join("", Collections.nCopies(n * 6 + 12, "-")));
 	}

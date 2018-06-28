@@ -20,7 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class FileOperate {
+public class FileOperator {
 
 	static File file;
 
@@ -30,7 +30,7 @@ public class FileOperate {
 			if (log.exists() == false) {
 				System.out.println("We had to make a new file.");
 				log.createNewFile();
-				FileOperate.file = log;
+				FileOperator.file = log;
 
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -49,7 +49,7 @@ public class FileOperate {
 				System.out.println("File saved!");
 			} else {
 				System.out.println("We already have this file.");
-				FileOperate.file = log;
+				FileOperator.file = log;
 			}
 		} catch (IOException e) {
 			System.out.println("Can't create file!");
@@ -131,6 +131,7 @@ public class FileOperate {
 	}
 
 	public static HashMap<Integer, Event> loadEventsMappedXML(File file) {
+		
 		HashMap<Integer, Event> hashMap = new HashMap<Integer, Event>();
 		char type;
 		char marker;
@@ -143,7 +144,7 @@ public class FileOperate {
 		
 		Calendar timeOfEvent;
 		try {
-			File inputFile = FileOperate.file;
+			File inputFile = FileOperator.file;
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);

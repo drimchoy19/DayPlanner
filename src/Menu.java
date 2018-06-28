@@ -12,17 +12,19 @@ public class Menu {
 		boolean checked = false;
 		boolean in = false;
 		Scanner sc = InputStream.getScanner();
-		Menu.printIntro();
+		Menu m = new Menu();
+		//m.printIntro();
 		HashMap<Integer, Event> hashMap = null;
 		
-		FileOperate.createFile();
-		hashMap = FileOperate.loadEventsMappedXML(FileOperate.file);
+		FileOperator.createFile();
+		hashMap = FileOperator.loadEventsMappedXML(FileOperator.file);
 
 		maxId = hashMap.size();
-		System.out.println(maxId);
+		//System.out.println(maxId);
 		
 		while (true) {
 			try {
+				m.printIntro();
 				if (in) {
 					sc.nextLine();
 					choice = sc.nextInt();
@@ -40,7 +42,7 @@ public class Menu {
 						checked = true;
 
 						EventsDisplay.showEvents(hashMap);
-						Menu.printIntro();
+						//m.printIntro();
 
 						break;
 
@@ -56,7 +58,7 @@ public class Menu {
 							choice = sc.nextInt();
 							sc.nextLine();
 							if (choice == 2) {
-								Menu.printIntro();
+								m.printIntro();
 								break;
 							}
 						} catch (InputMismatchException e) {
@@ -65,41 +67,32 @@ public class Menu {
 						}
 						hashMap.put(++maxId, event);
 						System.out.println("Event added");
-						Menu.printIntro();
+						//m.printIntro();
 						break;
 
 					case 3:
 						System.out.println("3");
 						if (checked == true) {
-							System.out.println(maxId);
-							hashMap = EventsOperate.editEvent(hashMap, sc, maxId);
+							//System.out.println(maxId);
+							hashMap = EventsOperator.editEvent(hashMap, sc, maxId);
 							break;
 						} else {
-							System.out.println("-------------------------------------------------------");
-							System.out.println("-------------------------------------------------------");
-							System.out.println("Choose 1 to show event and check your ID to edit event");
-							System.out.println("-------------------------------------------------------");
-							System.out.println("-------------------------------------------------------");
-							System.out.println();
+							//check
+							m.check();
 							break;
 						}
 					case 4:
 						System.out.println("4");
 						if (checked == true) {
 							
-							hashMap = EventsOperate.removeEvent(hashMap, sc, maxId);
+							hashMap = EventsOperator.removeEvent(hashMap, sc, maxId);
 							System.out.println("REMOVED");
 						} else {
-							System.out.println("-------------------------------------------------------");
-							System.out.println("-------------------------------------------------------");
-							System.out.println("Choose 1 to show event and check your ID to edit/remove event");
-							System.out.println("-------------------------------------------------------");
-							System.out.println("-------------------------------------------------------");
-							System.out.println();
+							m.check();
 							break;
 						}
 						System.out.println();
-						Menu.printIntro();
+						//m.printIntro();
 						break;
 
 					case 5:
@@ -125,7 +118,7 @@ public class Menu {
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
-								Menu.printIntro();
+								//m.printIntro();
 								break;
 							} else if (choice == 2) {
 								System.out.println("Enter month");
@@ -136,11 +129,11 @@ public class Menu {
 								sc.nextLine();
 
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showWeekTableView(hashMap, month, date);
+								EventsDisplay.showWeekTableView(dayMap, month, date);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
-								Menu.printIntro();
+								//m.printIntro();
 								break;
 							} else if (choice == 3) {
 								System.out.println("Enter month");
@@ -151,7 +144,7 @@ public class Menu {
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
-								Menu.printIntro();
+								//m.printIntro();
 								break;
 							}
 						} else {
@@ -169,9 +162,9 @@ public class Menu {
 								i++;
 							}
 						}
-						//FileOperate.loadEventsMappedXML(FileOperate.file);
-						eventArr = EventsOperate.sortEvents(eventArr);
-						FileOperate.reWriteFileXML(eventArr);
+
+						eventArr = EventsOperator.sortEvents(eventArr);
+						FileOperator.reWriteFileXML(eventArr);
 						InputStream.closeInputStream();
 						hashMap.clear();
 						System.out.println("Exit sucess");
@@ -182,24 +175,33 @@ public class Menu {
 					throw new IllegalArgumentException();
 				}
 			} catch (IllegalArgumentException e) {
-				System.out.println("INVALID INPUTss");
+				System.out.println("INVALID INPUT ERROR 1");
 				System.out.println("PLEASE TRY AGAIN");
 				System.out.println();
-				Menu.printIntro();
+				m.printIntro();
 			} catch (InputMismatchException im) {
-				System.out.println("INVALID INPUT");
+				System.out.println("INVALID INPUT ERROR 2");
 				System.out.println("Try please again!");
 				System.out.println();
 				in = true;
-				Menu.printIntro();
+				m.printIntro();
 			} catch (Exception ex) {
 				System.out.println("Unknown Error 123");
 			}
 		}
 
 	}
-
-	public static void printIntro() {
+	public void check(){
+		
+		System.out.println("-------------------------------------------------------");
+		System.out.println("-------------------------------------------------------");
+		System.out.println("Choose 1 to show event and check your ID to edit event");
+		System.out.println("-------------------------------------------------------");
+		System.out.println("-------------------------------------------------------");
+		
+		System.out.println();
+	}
+	public void printIntro() {
 
 		System.out.println("Hello to DayPlanner aplication.");
 		System.out.println("You can add ,edit and display your every day events.");

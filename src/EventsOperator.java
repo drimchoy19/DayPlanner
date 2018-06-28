@@ -1,8 +1,7 @@
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-public class EventsOperate {
+public class EventsOperator {
 	
 
 	public static Event[] sortEvents(Event[] arr) {
@@ -98,11 +97,12 @@ public class EventsOperate {
 		}
 			
 			System.out.println();
-			Menu.printIntro();
+			Menu m = new Menu();
+			m.printIntro();
 			return hashMap;
 
 	}
-	public static int countEventsFromHash(HashMap<Integer,Event> hashMap) {
+	/*public static int countEventsFromHash(HashMap<Integer,Event> hashMap) {
 		int count=0;
 		for(Map.Entry<Integer,Event> e : hashMap.entrySet()){
 			if(e!=null){
@@ -110,6 +110,6 @@ public class EventsOperate {
 			}
 		}
 		return count;
-	}
+	}*/
 
 }
