@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class Menu {
 		
 		fo.createFile();
 		hashMap = fo.loadEventsMappedXML();
-
+		
 		maxId = hashMap.size();
 		System.out.println(maxId);
 		
@@ -54,10 +55,12 @@ public class Menu {
 						System.out.println("Event adding");
 						System.out.println();
 						Event event = new Event();
+						event.makeEvent();
 						System.out.println("This is your event");
 						System.out.println(event);
 						System.out.println("");
-						System.out.println("Do you want to add this 2 for NO | Any number for YES");
+						System.out.println("Do you want to add this ?");
+						System.out.println("Any key - YES | 2 for NO");
 						try {
 							choice = sc.nextInt();
 							sc.nextLine();
@@ -189,9 +192,9 @@ public class Menu {
 				System.out.println();
 				in = true;
 				m.printIntro();
-			} catch (Exception ex) {
+			} /*catch (Exception ex) {
 				System.out.println("Unknown Error 123");
-			}
+			}*/
 		}
 
 	}

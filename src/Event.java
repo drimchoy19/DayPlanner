@@ -16,7 +16,7 @@ public class Event {
 		
 		this.type = 'e';
 		this.marker = 'e';
-		this.timeOfEvent = null;
+		this.timeOfEvent = new GregorianCalendar();
 		this.description = null;
 		
 	}
@@ -27,7 +27,14 @@ public class Event {
 		this.timeOfEvent = timeOfEvent;
 		this.description = description;
 	}
-	
+	public void makeEvent() {
+		this.setType();
+		this.setMarker();
+		this.setTimeOfEvent();
+		System.out.println("Enter description");
+		String desc = new InputStream().getScanner().nextLine();
+		this.setDescription(desc);
+	}
 	public void setTime() {
 
 		int month = this.setMonth();
@@ -55,7 +62,7 @@ public class Event {
 				inStream.getScanner().nextLine();
 				if (this.validMonth(month)) {
 					validMonth = true;
-					return month-1;
+					return month;
 					
 				} else {
 					throw new IllegalArgumentException();
@@ -72,6 +79,15 @@ public class Event {
 		}
 		return -1;
 		
+	}
+	public boolean validMonth(int month) throws IllegalArgumentException {
+		if (month <= 12 && month >= 1) {
+			System.out.println("Month valid");
+			return true;
+		} else {
+			System.out.println("Wrong month");
+			throw new IllegalArgumentException();
+		}
 	}
 	public int setDate(int month){
 		// 1-31/1,3,5,7,8,10,12 | 1-30/2,4,6,9,11
@@ -102,8 +118,35 @@ public class Event {
 		return -1;
 	}
 	
+	public boolean validDate(int date, int month) throws IllegalArgumentException {
+		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
+			if (date <= 31 && date >= 1) {
+				System.out.println("Date valid");
+				return true;
+			} else {
+				System.out.println("Wrong date");
+				throw new IllegalArgumentException();
+			}
+		} else if (month == 2) {
+			if (date <= 28 && date >= 1) {
+				System.out.println("Date valid");
+				return true;
+			} else {
+				System.out.println("Wrong date");
+				throw new IllegalArgumentException();
+			}
+		}
+		if (date <= 30 && date >= 1) {
+			System.out.println("Date valid");
+			return true;
+		} else {
+			System.out.println("Wrong date");
+			throw new IllegalArgumentException();
+		}
+	}
+	
 	public String setHour(){
-		//0-23||0-59
+		//0-23||0-59 in regEx
 		boolean validHour = false;
 		String hour;
 		InputStream inStream = new InputStream();
@@ -126,15 +169,16 @@ public class Event {
 		}
 		return "Error with setHour";
 	}
+	
 
 	protected char getType() {
 		return type;
 	}
 
 	protected void setType() {
+		
 		boolean check = false;
 		InputStream inStream = new InputStream();
-		
 		while (!check) {
 			try {
 				Scanner sc = inStream.getScanner();
@@ -143,10 +187,14 @@ public class Event {
 				System.out.println("For TASK t or T");
 				char ch = sc.next().charAt(0);
 				System.out.println(ch);
-				if (this.validType(ch)) {
+				if (ch == 'M' || ch == 'T' || ch == 'm' || ch == 't') {
 					this.type = ch;
 					check = true;
+				}else {
+					System.out.println("Wrong type");
+					throw new IllegalArgumentException();
 				}
+				
 			} catch (IllegalArgumentException e) {
 				System.out.println("Wrong type try again");
 			}
@@ -184,124 +232,19 @@ public class Event {
 	}
 
 	protected Calendar getTimeOfEvent() {
-		return timeOfEvent;
+		return this.timeOfEvent;
 	}
 
+	//test!
 	protected void setTimeOfEvent() {
 		int month = this.setMonth();
 		int date = this.setDate(month);
 		String hour = this.setHour();
-		InputStream inStream = new InputStream();
-		Scanner sc = inStream.getScanner();
-		RegEx regEx = new RegEx();
-		try {
-			System.out.println("Enter time of the Event |month|date|hour|minutes");
-			System.out.println("Enter month(1-12)");
-			month = sc.nextInt();
-			if (month <= 12 && month >= 1) {
-				System.out.println("Month valid");
-			} else {
-				System.out.println("Wrong month");
-				throw new IllegalArgumentException();
-			}
-			System.out.println("Enter date");
-			date = sc.nextInt();
-			sc.nextLine();
-			if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-				if (date <= 31 && date >= 1) {
-					System.out.println("Date valid");
-				} else {
-					System.out.println("Wrong date");
-					throw new IllegalArgumentException();
-				}
-			} else if (month == 2) {
-				if (date <= 28 && date >= 1) {
-					System.out.println("Date valid");
-				} else {
-					System.out.println("Wrong date");
-					throw new IllegalArgumentException();
-				}
-
-			} else {
-				if (date <= 30 && date >= 1) {
-					System.out.println("Date valid");
-				} else {
-					System.out.println("Wrong date");
-					throw new IllegalArgumentException();
-				}
-			}
-			System.out.println("Enter hour (HH:MM)");
-			hour = sc.nextLine();
-			boolean validHour = regEx.validateHour(hour);
-			if (validHour) {
-				String[] splitHour = hour.split(":");
-				this.timeOfEvent.set(this.year, month -1, date, Integer.parseInt(splitHour[0]),
-						Integer.parseInt(splitHour[1]));
-			} else {
-				System.out.println("Wrong hour format");
-				throw new IllegalArgumentException();
-			}
-		} catch (IllegalArgumentException e) {
-			System.out.println("WRONG DATE FORMAT TRY AGAIN !!!");
-		} catch (InputMismatchException e) {
-			System.out.println("Wrong date!!!");
-		}
+		String[] splitHour = hour.split(":");
+		this.timeOfEvent.set(this.year, month -1, date, Integer.parseInt(splitHour[0]),
+				Integer.parseInt(splitHour[1]));
 	}
 
-	public boolean validType(char ch) {
-		if (ch == 'M' || ch == 'T' || ch == 'm' || ch == 't') {
-			return true;
-		} else {
-			System.out.println("Wrong type");
-			throw new IllegalArgumentException();
-		}
-	}
-
-	public boolean validMarker(char ch) throws IllegalArgumentException {
-		if (ch == '1' || ch == '2' || ch == '3') {
-			return true;
-		} else {
-			System.out.println("Wront marker");
-			throw new IllegalArgumentException();
-		}
-	}
-
-	public boolean validMonth(int month) throws IllegalArgumentException {
-		if (month <= 12 && month >= 1) {
-			System.out.println("Month valid");
-			return true;
-		} else {
-			System.out.println("Wrong month");
-			throw new IllegalArgumentException();
-		}
-	}
-
-	public boolean validDate(int date, int month) throws IllegalArgumentException {
-		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
-			if (date <= 31 && date >= 1) {
-				System.out.println("Date valid");
-				return true;
-			} else {
-				System.out.println("Wrong date");
-				throw new IllegalArgumentException();
-			}
-		} else if (month == 2) {
-			if (date <= 28 && date >= 1) {
-				System.out.println("Date valid");
-				return true;
-			} else {
-				System.out.println("Wrong date");
-				throw new IllegalArgumentException();
-			}
-		}
-		if (date <= 30 && date >= 1) {
-			System.out.println("Date valid");
-			return true;
-		} else {
-			System.out.println("Wrong date");
-			throw new IllegalArgumentException();
-		}
-	}
 
 	protected String getDescription() {
 		return description;

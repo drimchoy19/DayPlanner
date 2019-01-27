@@ -80,7 +80,6 @@ public class FileOperator {
 			Element event,type,marker,
 				month,date,hour,minutes,description;
 			Attr attr;
-			
 			for (int i = 0; i < events.length; i++) {
 
 				event = doc.createElement("event");
@@ -179,11 +178,12 @@ public class FileOperator {
 					minutes = eElement.getElementsByTagName("minutes").item(0).getTextContent();
 					description = eElement.getElementsByTagName("Description").item(0).getTextContent();
 					
-					timeOfEvent.set(2019, month, date, Integer.valueOf(hour),
+					Calendar c = new GregorianCalendar(2019, month, date, Integer.valueOf(hour),
 							Integer.valueOf(minutes));
 					
-					events[temp] = new Event(type, marker, timeOfEvent, description);
-					hashMap.put(++count, events[temp]);
+					//events[temp] = new Event(type, marker, timeOfEvent, description);
+					hashMap.put(++count, new Event(type, marker, c, description));
+					
 				}
 			}
 			
