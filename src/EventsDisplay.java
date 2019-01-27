@@ -5,8 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventsDisplay {
+	
+	Event event;
+	
+	public EventsDisplay() {
+		
+		this.event = new Event();
+	}
+	public EventsDisplay(Event e) {
+		this.event = e;
+	}
 
-	public static void showEvents(HashMap<Integer, Event> hashMap) {
+	public void showEvents(HashMap<Integer, Event> hashMap) {
 
 		System.out.println("|" + "ID" + "|" + "     TYPE    " + "|"
 		+ "   MARKER   " + "|" + "MONTH" + "|" + "DATE " + "|"
@@ -64,14 +74,14 @@ public class EventsDisplay {
 		}
 	}
 
-	public static void showDayTableView(HashMap<Integer, Event> hashMap, int month, int date) {
+	public void showDayTableView(HashMap<Integer, Event> hashMap, int month, int date) {
 		int count = 0;
 		month = month - 1;
 		int[] forRemove = new int[hashMap.size()];
 		Calendar check1 = new GregorianCalendar();
-		check1.set(Event.year, month, ((date) - 1), 23, 59);
+		check1.set(this.event.year, month, ((date) - 1), 23, 59);
 		Calendar check2 = new GregorianCalendar();
-		check2.set(Event.year, month, ((date) + 1), 00, 00);
+		check2.set(this.event.year, month, ((date) + 1), 00, 00);
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
 
 			if (e.getValue().getTimeOfEvent().after(check2) || e.getValue().getTimeOfEvent().before(check1)) {
@@ -83,21 +93,22 @@ public class EventsDisplay {
 
 			hashMap.remove(forRemove[i]);
 		}
-		EventsDisplay.printTable2(hashMap);
+		this.printTable(hashMap);
 	}
 
-	public static void showWeekTableView(HashMap<Integer, Event> hashMap, int month, int date) {
+	public void showWeekTableView(HashMap<Integer, Event> hashMap, int month, int date) {
 
 		int count = 0;
-		month = month - 1;
+		month--;
 		int[] forRemove = new int[hashMap.size()];
 		Calendar check1 = new GregorianCalendar();
-		check1.set(Event.year, month, ((date) - 1), 23, 59);
+		check1.set(this.event.year, month, ((date) - 1), 23, 59);
 		Calendar check2 = new GregorianCalendar();
-		check2.set(Event.year, month, ((date) + 7), 00, 00);
+		check2.set(this.event.year, month, ((date) + 7), 00, 00);
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
-
-			if (e.getValue().getTimeOfEvent().after(check2) || e.getValue().getTimeOfEvent().before(check1)) {
+			//edit ?
+			if (e.getValue().getTimeOfEvent().after(check2) 
+					|| e.getValue().getTimeOfEvent().before(check1)) {
 				forRemove[count] = e.getKey();
 				count++;
 			}
@@ -108,19 +119,20 @@ public class EventsDisplay {
 			
 		}
 
-		EventsDisplay.printTable2(hashMap);
+		this.printTable(hashMap);
 
 	}
 
-	public static void showMonthTableView(HashMap<Integer, Event> hashMap, int month) {
+	public void showMonthTableView(HashMap<Integer, Event> hashMap, int month) {
 
 		int count = 0;
 		month = month - 1;
 		int[] forRemove = new int[hashMap.size()];
+		Event ev = new Event();
 		Calendar check1 = new GregorianCalendar();
-		check1.set(Event.year, ((month) - 1), 31, 23, 59);
+		check1.set(ev.year, ((month) - 1), 31, 23, 59);
 		Calendar check2 = new GregorianCalendar();
-		check2.set(Event.year, ((month) + 1), 0, 00, 00);
+		check2.set(ev.year, ((month) + 1), 0, 00, 00);
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
 
 			if (e.getValue().getTimeOfEvent().after(check2) || e.getValue().getTimeOfEvent().before(check1)) {
@@ -131,12 +143,12 @@ public class EventsDisplay {
 		for (int i = 0; i < forRemove.length; i++) {
 			hashMap.remove(forRemove[i]);
 		}
-		EventsDisplay.printTable2(hashMap);
+		this.printTable(hashMap);
 
 	}
 
 
-	public static void printTable2(HashMap<Integer, Event> hashMap) {
+	public void printTable(HashMap<Integer, Event> hashMap) {
 		int n = 21;
 		int counterDate = 0;
 		int counterHour = 0;
@@ -224,6 +236,7 @@ public class EventsDisplay {
 					break;
 				}
 				if (e.getKey() > counterDescription) {
+					//desc.len > 21 error
 					description = "Info-" + e.getValue().getDescription();
 					System.out.print("|" + description
 							+ String.join("", Collections.nCopies(n - description.length(), " ")) + "|");

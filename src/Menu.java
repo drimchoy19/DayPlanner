@@ -3,7 +3,6 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
-//HashMap
 public class Menu {
 
 	public static void main(String[] args) {
@@ -11,16 +10,20 @@ public class Menu {
 		int maxId = 0;
 		boolean checked = false;
 		boolean in = false;
-		Scanner sc = InputStream.getScanner();
+		InputStream inStream = new InputStream();
+		Scanner sc = inStream.getScanner();
 		Menu m = new Menu();
+		FileOperator fo = new FileOperator();
+		EventsDisplay eventDisplay = new EventsDisplay();
+		EventsOperator eventOperator = new EventsOperator();
 		//m.printIntro();
 		HashMap<Integer, Event> hashMap = null;
 		
-		FileOperator.createFile();
-		hashMap = FileOperator.loadEventsMappedXML(FileOperator.file);
+		fo.createFile();
+		hashMap = fo.loadEventsMappedXML();
 
 		maxId = hashMap.size();
-		//System.out.println(maxId);
+		System.out.println(maxId);
 		
 		while (true) {
 			try {
@@ -38,15 +41,16 @@ public class Menu {
 
 					switch (choice) {
 					case 1:
+						
 						System.out.println("1");
 						checked = true;
-
-						EventsDisplay.showEvents(hashMap);
-						//m.printIntro();
-
+						
+						eventDisplay.showEvents(hashMap);
+						
 						break;
 
 					case 2:
+						
 						System.out.println("Event adding");
 						System.out.println();
 						Event event = new Event();
@@ -67,17 +71,16 @@ public class Menu {
 						}
 						hashMap.put(++maxId, event);
 						System.out.println("Event added");
-						//m.printIntro();
 						break;
 
 					case 3:
 						System.out.println("3");
 						if (checked == true) {
-							//System.out.println(maxId);
-							hashMap = EventsOperator.editEvent(hashMap, sc, maxId);
+							
+							hashMap = eventOperator.editEvent(hashMap, sc, maxId);
 							break;
 						} else {
-							//check
+							
 							m.check();
 							break;
 						}
@@ -85,25 +88,27 @@ public class Menu {
 						System.out.println("4");
 						if (checked == true) {
 							
-							hashMap = EventsOperator.removeEvent(hashMap, sc, maxId);
+							hashMap = eventOperator.removeEvent(hashMap, sc, maxId);
 							System.out.println("REMOVED");
 						} else {
+							
 							m.check();
 							break;
 						}
+						
 						System.out.println();
-						//m.printIntro();
 						break;
 
 					case 5:
+						
 						System.out.println("5");
-						int date;
-						int month;
 						System.out.println("Enter 1 for DayView | 2 for WeekView | 3 for MonthView");
 						choice = sc.nextInt();
 						if (choice >= 0 && choice <= 3) {
 
 							HashMap<Integer, Event> dayMap = null;
+							int date;
+							int month;
 
 							if (choice == 1) {
 
@@ -114,7 +119,7 @@ public class Menu {
 								date = sc.nextInt();
 								sc.nextLine();
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showDayTableView(dayMap, month, date);
+								eventDisplay.showDayTableView(dayMap, month, date);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
@@ -129,7 +134,7 @@ public class Menu {
 								sc.nextLine();
 
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showWeekTableView(dayMap, month, date);
+								eventDisplay.showWeekTableView(dayMap, month, date);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
@@ -140,11 +145,10 @@ public class Menu {
 								month = sc.nextInt();
 								sc.nextLine();
 								dayMap = new HashMap<Integer, Event>(hashMap);
-								EventsDisplay.showMonthTableView(dayMap, month);
+								eventDisplay.showMonthTableView(dayMap, month);
 								System.out.println("");
 								System.out.println();
 								dayMap.clear();
-								//m.printIntro();
 								break;
 							}
 						} else {
@@ -163,9 +167,9 @@ public class Menu {
 							}
 						}
 
-						eventArr = EventsOperator.sortEvents(eventArr);
-						FileOperator.reWriteFileXML(eventArr);
-						InputStream.closeInputStream();
+						eventArr = eventOperator.sortEvents(eventArr);
+						fo.reWriteFileXML(eventArr);
+						inStream.closeInputStream();
 						hashMap.clear();
 						System.out.println("Exit sucess");
 						System.exit(6);
@@ -176,12 +180,12 @@ public class Menu {
 				}
 			} catch (IllegalArgumentException e) {
 				System.out.println("INVALID INPUT ERROR 1");
-				System.out.println("PLEASE TRY AGAIN");
+				System.out.println("TRY AGAIN");
 				System.out.println();
 				m.printIntro();
 			} catch (InputMismatchException im) {
 				System.out.println("INVALID INPUT ERROR 2");
-				System.out.println("Try please again!");
+				System.out.println("Try again!");
 				System.out.println();
 				in = true;
 				m.printIntro();

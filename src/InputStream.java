@@ -2,18 +2,18 @@ import java.util.Scanner;
 
 public class InputStream {
 	
-	private static Scanner scanner = new Scanner(System.in);
+	private Scanner scanner = new Scanner(System.in);
 	
 	
-	public static void closeInputStream(){
+	public void closeInputStream(){
 		
-		InputStream.scanner.close();
+		this.scanner.close();
 		
 	}
 	
-	public static Scanner getScanner(){
+	public Scanner getScanner(){
 		
-		return InputStream.scanner;
+		return this.scanner;
 	}
 
 }

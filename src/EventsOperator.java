@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class EventsOperator {
 	
 
-	public static Event[] sortEvents(Event[] arr) {
+	public Event[] sortEvents(Event[] arr) {
 		boolean haveSwap = false;
 		Event[] events = new Event[arr.length];
 		events=arr;
@@ -24,7 +24,8 @@ public class EventsOperator {
 		return events;
 	}
 
-	public static HashMap<Integer,Event> removeEvent(HashMap<Integer,Event> hashMap, Scanner sc, int maxId) {
+	public HashMap<Integer,Event> removeEvent(HashMap<Integer,Event> hashMap, Scanner sc, int maxId) {
+		
 		int eventToEdit;
 		System.out.println("Do you know your ID of the event you want to remove");
 		System.out.println("| 1 for YES || 2 for NO |");
@@ -50,7 +51,7 @@ public class EventsOperator {
 		} return hashMap;
 	}
 
-	public static HashMap<Integer,Event> editEvent(HashMap<Integer,Event> hashMap, Scanner sc, int maxId) {
+	public HashMap<Integer,Event> editEvent(HashMap<Integer,Event> hashMap, Scanner sc, int maxId) {
 
 		System.out.println("What you want to edit ?");
 		System.out.println("1 for type");

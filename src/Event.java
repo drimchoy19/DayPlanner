@@ -9,45 +9,51 @@ public class Event {
 	private char marker; 
 	private Calendar timeOfEvent;
 	private String description;
-	static int year = 2017;
+	int year = 2019;
 
 	
 	public Event() {
+		
+		this.type = 'e';
+		this.marker = 'e';
+		this.timeOfEvent = null;
+		this.description = null;
+		
+	}
 
-		Scanner sc = InputStream.getScanner();
-		this.setType();
-		this.setMarker();
-		System.out.println("Enter time of the Event |month|date|hour|minutes");
-		this.setTime();
-		System.out.println("Enter description");
-		this.description = sc.nextLine();
-
+	public Event(char type, char marker, Calendar timeOfEvent, String description) {
+		this.type = type;
+		this.marker = marker;
+		this.timeOfEvent = timeOfEvent;
+		this.description = description;
 	}
 	
 	public void setTime() {
 
-		int month = Event.setMonth();
-		int date = Event.setDate(month);
-		String hour = Event.setHour();
+		int month = this.setMonth();
+		int date = this.setDate(month);
+		String hour = this.setHour();
 		String[] hourAndMin = hour.split(":");
 		
 		Calendar timeOfEvent = new GregorianCalendar();
 		if(month==-1||date==-1){
 			throw new IllegalArgumentException();
 		}
-		timeOfEvent.set(Event.year,month, date, Integer.valueOf(hourAndMin[0]),Integer.valueOf(hourAndMin[1]) );
+		timeOfEvent.set(this.year,month, date, Integer.valueOf(hourAndMin[0]),Integer.valueOf(hourAndMin[1]) );
 		this.timeOfEvent=timeOfEvent;
 		
 	}
-	public static int setMonth(){
+	public int setMonth(){
+		//1-12
 		int month;
 		boolean validMonth = false;
+		InputStream inStream = new InputStream();
 		while (!validMonth) {
 			try {
 				System.out.println("Enter month(1-12)");
-				month = InputStream.getScanner().nextInt();
-				InputStream.getScanner().nextLine();
-				if (Event.validMonth(month)) {
+				month = inStream.getScanner().nextInt();
+				inStream.getScanner().nextLine();
+				if (this.validMonth(month)) {
 					validMonth = true;
 					return month-1;
 					
@@ -56,55 +62,58 @@ public class Event {
 				}
 			}catch(InputMismatchException im){
 				validMonth = false;
-				InputStream.getScanner().nextLine();
+				inStream.getScanner().nextLine();
 				System.out.println("IVALID MONTH");
 			}catch (IllegalArgumentException e) {
 				validMonth = false;
-				InputStream.getScanner().nextLine();
+				inStream.getScanner().nextLine();
 				System.out.println("IVALID MONTH");
 			}
 		}
 		return -1;
 		
 	}
-
-	
-	public static int setDate(int month){
+	public int setDate(int month){
+		// 1-31/1,3,5,7,8,10,12 | 1-30/2,4,6,9,11
 		int date;
 		boolean validDate= false;
+
+		InputStream inStream = new InputStream();
 		while (!validDate) {
 			try {
 				System.out.println("Enter date");
-				date = InputStream.getScanner().nextInt();
-				InputStream.getScanner().nextLine();
-				if (Event.validDate(date, month)) {
+				date = inStream.getScanner().nextInt();
+				inStream.getScanner().nextLine();
+				if (this.validDate(date, month)) {
 					validDate = true;
 					return date;
 				}
 			} catch (InputMismatchException e) {
 				System.out.println("Wrong date!!!");
-				InputStream.getScanner().nextLine();
+				inStream.getScanner().nextLine();
 				validDate = false;
 			}
 
 			catch (IllegalArgumentException e) {
 				System.out.println("INVALID DATE");
-				InputStream.getScanner().nextLine();
+				inStream.getScanner().nextLine();
 			}
 		}
 		return -1;
 	}
 	
-	public static String setHour(){
+	public String setHour(){
+		//0-23||0-59
 		boolean validHour = false;
 		String hour;
-
+		InputStream inStream = new InputStream();
 		RegEx regEx = new RegEx();
 		
 		while (!validHour) {
 			try {
 				System.out.println("Enter hour (HH:MM)");
-				hour = InputStream.getScanner().nextLine();
+				hour = inStream.getScanner().nextLine();
+				//edit regEx
 				validHour = regEx.validateHour(hour);
 				if (validHour) {
 				return hour;
@@ -118,28 +127,23 @@ public class Event {
 		return "Error with setHour";
 	}
 
-	public Event(char type, char marker, Calendar timeOfEvent, String description) {
-		this.type = type;
-		this.marker = marker;
-		this.timeOfEvent = timeOfEvent;
-		this.description = description;
-	}
-
 	protected char getType() {
 		return type;
 	}
 
 	protected void setType() {
 		boolean check = false;
+		InputStream inStream = new InputStream();
+		
 		while (!check) {
 			try {
-				Scanner sc = InputStream.getScanner();
+				Scanner sc = inStream.getScanner();
 				System.out.println("Enter what type is the event");
 				System.out.println("For MEETING m or M");
 				System.out.println("For TASK t or T");
 				char ch = sc.next().charAt(0);
 				System.out.println(ch);
-				if (Event.validType(ch)) {
+				if (this.validType(ch)) {
 					this.type = ch;
 					check = true;
 				}
@@ -156,7 +160,8 @@ public class Event {
 	protected void setMarker() {
 		boolean check = false;
 		char ch;
-		Scanner sc = InputStream.getScanner();
+		InputStream inStream = new InputStream();
+		Scanner sc = inStream.getScanner();
 		while (!check) {
 			try {
 				System.out.println("1 for public");
@@ -183,11 +188,11 @@ public class Event {
 	}
 
 	protected void setTimeOfEvent() {
-		int month;
-		int date;
-		String hour;
-		boolean validHour = false;
-		Scanner sc = InputStream.getScanner();
+		int month = this.setMonth();
+		int date = this.setDate(month);
+		String hour = this.setHour();
+		InputStream inStream = new InputStream();
+		Scanner sc = inStream.getScanner();
 		RegEx regEx = new RegEx();
 		try {
 			System.out.println("Enter time of the Event |month|date|hour|minutes");
@@ -227,10 +232,10 @@ public class Event {
 			}
 			System.out.println("Enter hour (HH:MM)");
 			hour = sc.nextLine();
-			validHour = regEx.validateHour(hour);
+			boolean validHour = regEx.validateHour(hour);
 			if (validHour) {
 				String[] splitHour = hour.split(":");
-				this.timeOfEvent.set(Event.year, month -1, date, Integer.parseInt(splitHour[0]),
+				this.timeOfEvent.set(this.year, month -1, date, Integer.parseInt(splitHour[0]),
 						Integer.parseInt(splitHour[1]));
 			} else {
 				System.out.println("Wrong hour format");
@@ -243,7 +248,7 @@ public class Event {
 		}
 	}
 
-	public static boolean validType(char ch) {
+	public boolean validType(char ch) {
 		if (ch == 'M' || ch == 'T' || ch == 'm' || ch == 't') {
 			return true;
 		} else {
@@ -252,7 +257,7 @@ public class Event {
 		}
 	}
 
-	public static boolean validMarker(char ch) throws IllegalArgumentException {
+	public boolean validMarker(char ch) throws IllegalArgumentException {
 		if (ch == '1' || ch == '2' || ch == '3') {
 			return true;
 		} else {
@@ -261,7 +266,7 @@ public class Event {
 		}
 	}
 
-	public static boolean validMonth(int month) throws IllegalArgumentException {
+	public boolean validMonth(int month) throws IllegalArgumentException {
 		if (month <= 12 && month >= 1) {
 			System.out.println("Month valid");
 			return true;
@@ -271,7 +276,7 @@ public class Event {
 		}
 	}
 
-	public static boolean validDate(int date, int month) throws IllegalArgumentException {
+	public boolean validDate(int date, int month) throws IllegalArgumentException {
 		if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
 			if (date <= 31 && date >= 1) {
 				System.out.println("Date valid");
