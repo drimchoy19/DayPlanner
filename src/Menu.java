@@ -1,4 +1,3 @@
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Map;
@@ -7,24 +6,25 @@ import java.util.Scanner;
 public class Menu {
 
 	public static void main(String[] args) {
-		int choice;
-		int maxId = 0;
-		boolean checked = false;
-		boolean in = false;
+		
+		Menu m = new Menu();
 		InputStream inStream = new InputStream();
 		Scanner sc = inStream.getScanner();
-		Menu m = new Menu();
-		FileOperator fo = new FileOperator();
+		
 		EventsDisplay eventDisplay = new EventsDisplay();
 		EventsOperator eventOperator = new EventsOperator();
-		//m.printIntro();
-		HashMap<Integer, Event> hashMap = null;
 		
+
+		FileOperator fo = new FileOperator();
 		fo.createFile();
+
+		HashMap<Integer, Event> hashMap = null;
 		hashMap = fo.loadEventsMappedXML();
 		
-		maxId = hashMap.size();
-		System.out.println(maxId);
+		int maxId = hashMap.size();
+		int choice;
+		boolean checked = false;
+		boolean in = false;
 		
 		while (true) {
 			try {
@@ -54,8 +54,10 @@ public class Menu {
 						
 						System.out.println("Event adding");
 						System.out.println();
+						
 						Event event = new Event();
 						event.makeEvent();
+						
 						System.out.println("This is your event");
 						System.out.println(event);
 						System.out.println("");
@@ -77,6 +79,7 @@ public class Menu {
 						break;
 
 					case 3:
+						
 						System.out.println("3");
 						if (checked == true) {
 							
@@ -88,6 +91,7 @@ public class Menu {
 							break;
 						}
 					case 4:
+						
 						System.out.println("4");
 						if (checked == true) {
 							
@@ -109,49 +113,28 @@ public class Menu {
 						choice = sc.nextInt();
 						if (choice >= 0 && choice <= 3) {
 
-							HashMap<Integer, Event> dayMap = null;
-							int date;
-							int month;
-
 							if (choice == 1) {
 
-								System.out.println("Enter month");
-								month = sc.nextInt();
-								sc.nextLine();
-								System.out.println("Enter date");
-								date = sc.nextInt();
-								sc.nextLine();
-								dayMap = new HashMap<Integer, Event>(hashMap);
-								eventDisplay.showDayTableView(dayMap, month, date);
+								eventDisplay.showDayTableView(hashMap);
 								System.out.println("");
 								System.out.println();
-								dayMap.clear();
-								//m.printIntro();
+								
 								break;
+								
 							} else if (choice == 2) {
-								System.out.println("Enter month");
-								month = sc.nextInt();
-								sc.nextLine();
-								System.out.println("Enter date");
-								date = sc.nextInt();
-								sc.nextLine();
 
-								dayMap = new HashMap<Integer, Event>(hashMap);
-								eventDisplay.showWeekTableView(dayMap, month, date);
+								eventDisplay.showWeekTableView(hashMap);
 								System.out.println("");
 								System.out.println();
-								dayMap.clear();
-								//m.printIntro();
+								
 								break;
+								
 							} else if (choice == 3) {
-								System.out.println("Enter month");
-								month = sc.nextInt();
-								sc.nextLine();
-								dayMap = new HashMap<Integer, Event>(hashMap);
-								eventDisplay.showMonthTableView(dayMap, month);
+								
+								eventDisplay.showMonthTableView(hashMap);
 								System.out.println("");
 								System.out.println();
-								dayMap.clear();
+								
 								break;
 							}
 						} else {
@@ -161,6 +144,7 @@ public class Menu {
 						break;
 
 					case 6:
+						
 						Event[] eventArr = new Event[hashMap.size()];
 						int i = 0;
 						for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
@@ -192,12 +176,13 @@ public class Menu {
 				System.out.println();
 				in = true;
 				m.printIntro();
-			} /*catch (Exception ex) {
+			}catch (Exception ex) {
 				System.out.println("Unknown Error 123");
-			}*/
+			}
 		}
 
 	}
+	
 	public void check(){
 		
 		System.out.println("-------------------------------------------------------");

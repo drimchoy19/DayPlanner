@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class EventsDisplay {
 	
@@ -73,17 +74,21 @@ public class EventsDisplay {
 
 		}
 	}
+	
+	public void showDayTableView(HashMap<Integer, Event> hashMapOut) {
 
-	public void showDayTableView(HashMap<Integer, Event> hashMap, int month, int date) {
+		
+		HashMap<Integer,Event> hashMap = new HashMap<Integer, Event>(hashMapOut);
+
 		int count = 0;
-		month = month - 1;
 		int[] forRemove = new int[hashMap.size()];
-		Calendar check1 = new GregorianCalendar();
-		check1.set(this.event.year, month, ((date) - 1), 23, 59);
-		Calendar check2 = new GregorianCalendar();
-		check2.set(this.event.year, month, ((date) + 1), 00, 00);
+		int[] monthDate = this.monthDate(2);
+		Calendar check1 = new GregorianCalendar(this.event.year, monthDate[0], (( monthDate[1]) - 1), 23, 59);
+		//check1.set();
+		Calendar check2 = new GregorianCalendar(this.event.year, monthDate[0], (( monthDate[1]) + 1), 00, 00);
+		//check2.set();
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
-
+			
 			if (e.getValue().getTimeOfEvent().after(check2) || e.getValue().getTimeOfEvent().before(check1)) {
 				forRemove[count] = e.getKey();
 				count++;
@@ -96,15 +101,16 @@ public class EventsDisplay {
 		this.printTable(hashMap);
 	}
 
-	public void showWeekTableView(HashMap<Integer, Event> hashMap, int month, int date) {
+	public void showWeekTableView(HashMap<Integer, Event> hashMapOut) {
 
 		int count = 0;
-		month--;
+		int[] monthDate = this.monthDate(2);
+
+		HashMap<Integer,Event> hashMap = new HashMap<Integer, Event>(hashMapOut);
 		int[] forRemove = new int[hashMap.size()];
-		Calendar check1 = new GregorianCalendar();
-		check1.set(this.event.year, month, ((date) - 1), 23, 59);
-		Calendar check2 = new GregorianCalendar();
-		check2.set(this.event.year, month, ((date) + 7), 00, 00);
+		Calendar check1 = new GregorianCalendar(this.event.year, monthDate[0], ((monthDate[1]) - 1), 23, 59);
+		Calendar check2 = new GregorianCalendar(this.event.year, monthDate[0], ((monthDate[1]) + 7), 00, 00);
+		
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
 			//edit ?
 			if (e.getValue().getTimeOfEvent().after(check2) 
@@ -123,16 +129,17 @@ public class EventsDisplay {
 
 	}
 
-	public void showMonthTableView(HashMap<Integer, Event> hashMap, int month) {
+	public void showMonthTableView(HashMap<Integer, Event> hashMapOut) {
 
 		int count = 0;
-		month = month - 1;
+		int[] monthDate = this.monthDate(1);
+
+		HashMap<Integer,Event> hashMap = new HashMap<Integer, Event>(hashMapOut);
 		int[] forRemove = new int[hashMap.size()];
-		Event ev = new Event();
-		Calendar check1 = new GregorianCalendar();
-		check1.set(ev.year, ((month) - 1), 31, 23, 59);
-		Calendar check2 = new GregorianCalendar();
-		check2.set(ev.year, ((month) + 1), 0, 00, 00);
+		
+		Calendar check1 = new GregorianCalendar(this.event.year, ((monthDate[0]) - 1), 31, 23, 59);
+		Calendar check2 = new GregorianCalendar(this.event.year, ((monthDate[0]) + 1), 0, 00, 00);
+		
 		for (Map.Entry<Integer, Event> e : hashMap.entrySet()) {
 
 			if (e.getValue().getTimeOfEvent().after(check2) || e.getValue().getTimeOfEvent().before(check1)) {
@@ -146,8 +153,29 @@ public class EventsDisplay {
 		this.printTable(hashMap);
 
 	}
+	
+	public int[] monthDate(int in) {
 
+		Scanner sc = new Scanner(System.in);
+		
+		if(in==2) {
+			System.out.println("Enter month");
+			int month = sc.nextInt();
+			sc.nextLine();
+			System.out.println("Enter date");
+			int date = sc.nextInt();
+			sc.nextLine();
+			return new int[] {--month,date};
+			
+		}else {
+			System.out.println("Enter month");
+			int month = sc.nextInt();
+			sc.nextLine();
+			return new int[] {--month,-1};
+		}
+	}
 
+	//edit
 	public void printTable(HashMap<Integer, Event> hashMap) {
 		int n = 21;
 		int counterDate = 0;
@@ -245,7 +273,7 @@ public class EventsDisplay {
 			System.out.println("");
 			counterDescription += 7;
 			counter += 7;
-			//System.out.println();
+			
 		}
 		System.out.println(String.join("", Collections.nCopies(n * 6 + 12, "-")));
 	}

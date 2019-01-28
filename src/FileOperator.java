@@ -154,8 +154,8 @@ public class FileOperator {
 
 			NodeList nList = doc.getElementsByTagName("event");
 
-			Event[] events = new Event[nList.getLength()];
-			Calendar timeOfEvent = new GregorianCalendar();
+			//Event[] events = new Event[nList.getLength()];
+			//Calendar timeOfEvent = new GregorianCalendar();
 			
 			int count = 0;
 			char type,marker;
@@ -181,7 +181,6 @@ public class FileOperator {
 					Calendar c = new GregorianCalendar(2019, month, date, Integer.valueOf(hour),
 							Integer.valueOf(minutes));
 					
-					//events[temp] = new Event(type, marker, timeOfEvent, description);
 					hashMap.put(++count, new Event(type, marker, c, description));
 					
 				}

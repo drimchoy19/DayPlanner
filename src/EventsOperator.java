@@ -5,6 +5,7 @@ public class EventsOperator {
 	
 
 	public Event[] sortEvents(Event[] arr) {
+		
 		boolean haveSwap = false;
 		Event[] events = new Event[arr.length];
 		events=arr;
@@ -103,14 +104,5 @@ public class EventsOperator {
 			return hashMap;
 
 	}
-	/*public static int countEventsFromHash(HashMap<Integer,Event> hashMap) {
-		int count=0;
-		for(Map.Entry<Integer,Event> e : hashMap.entrySet()){
-			if(e!=null){
-				count++;
-			}
-		}
-		return count;
-	}*/
 
 }
